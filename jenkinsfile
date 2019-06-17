@@ -1,1 +1,33 @@
-test
+node
+{
+    stage('setup')
+    {
+        echo 'creating proper env..'
+       sh label: '', script: 'gcloud container clusters get-credentials standard-cluster-2 --zone us-central1-a --project ferrous-thought-243815' 
+    }
+    stage('create cluster')
+    {
+        echo 'ctreating the cluster..'
+        sh label: '', script: 'kubectl create cluste   rrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts;'
+    }
+    stage('ingress')
+    {
+        echo 'inatlling ingress from helm chart'
+        sh label: '', script: 'helm install nginx-ingress/ --name ingress'
+    }
+    stage ('Helm')
+    {
+        sh label: '', script: 'helm install kumar-helm/ --name kumar'
+    }
+    stage ('simple smoke test')
+    {
+        sh label: '', script: 'sh label: '', script: 'helm install kumar-helm/ --name kumar''
+        if (res == 'Hello World!')
+        {
+            return 1
+        }
+        else
+
+        return 0
+    }
+}
